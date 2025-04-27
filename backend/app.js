@@ -41,7 +41,10 @@ app.get('/', (req, res) => {
 
 // CORS configuration for front-end and back-end interaction
 const corsOptions = {
-  origin: 'http://localhost:5173',  // Your frontend origin
+  origin: [
+    'http://localhost:5173',
+    'https://new-movie-ticket-booking-vvre.vercel.app'
+  ], 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true, // Allows cookies to be sent with the request (if needed)
