@@ -19,7 +19,7 @@ export const createBooking = async (showId, seats) => {
 
   try {
     const response = await userInstance.post(
-      `/bookings/createbooking`,
+      `api/bookings/createbooking`,
       {
         show: showId,
         seatsBooked: seats,
