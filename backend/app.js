@@ -18,6 +18,7 @@ dotenv.config();
 
 const app = express();
 
+// For ES Modules (__dirname)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -25,34 +26,40 @@ const __dirname = dirname(__filename);
 const corsOptions = {
   origin: [
     'http://localhost:5173',
-    'https://new-movie-ticket-booking-24tc-lchor622t.vercel.app'
+    'https://new-movie-ticket-booking-24tc-lchor622t.vercel.app',
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 };
-
 app.use(cors(corsOptions));
 
-// Middleware to set Content Security Policy
+// Content Security Policy (CSP) Middleware
 app.use((req, res, next) => {
   res.setHeader("Content-Security-Policy", 
     "default-src 'self'; " + 
     "script-src 'self' https://vercel.live; " +
     "img-src 'self' http://localhost:3000 https://movie-website-images.com; " +
     "style-src 'self' https://fonts.googleapis.com; " +
-    "font-src 'self' https://fonts.gstatic.com;");
+    "font-src 'self' https://fonts.gstatic.com;"
+  );
   next();
 });
 
+// Body parsers
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
+// Serve static uploads
+app.use('/upload', express.static(path.join(__dirname, 'upload')));
+
+// Test route
 app.get('/', (req, res) => {
-  res.json({ message: 'server started' });
+  res.json({ message: 'Server started successfully!' });
 });
 
-// Routes
+// API Routes
 app.use('/api/users', userRouter);
 app.use('/api/theaters', theaterRouter);
 app.use('/api/movies', movieRouter);
@@ -61,21 +68,7 @@ app.use('/api/bookings', bookingRouter);
 app.use('/api/payment', paymentRouter);
 app.use('/api/reviews', reviewRouter);
 
-app.use(express.urlencoded({ extended: true }));
-
-app.use('/upload', express.static(path.join(__dirname, 'upload')));
-
-// Database connection
-connect()
-  .then(() => console.log('MongoDB connected successfully'))
-  .catch((err) => console.error('MongoDB connection error:', err));
-
-console.log('MongoDB URI from .env in app.js:', process.env.DB_URL);
-
-//const PORT = process.env.PORT || 5000;
-//app.listen(PORT, () => {
- // console.log(`Server is listening on port ${PORT}`);
-//});
+// Database connection (inside serverless handler, not here!)
+// We will call connect() manually in serverless function file
 
 export default app;
-

@@ -1,14 +1,26 @@
-import dotenv from 'dotenv';
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-console.log(process.env.DB_URL);
-dotenv.config();
+let isConnected = false; // track the connection
 
 export const connect = async () => {
+  if (isConnected) {
+    console.log('=> Using existing MongoDB connection');
+    return;
+  }
+
+  if (!process.env.DB_URL) {
+    throw new Error('MongoDB connection string (DB_URL) is missing');
+  }
+
   try {
-    await mongoose.connect(process.env.DB_URL);
-    console.log("mongodb successfully connected");
+    const db = await mongoose.connect(process.env.DB_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    isConnected = db.connections[0].readyState;
+    console.log('=> New MongoDB connection created');
   } catch (error) {
-    console.error("Error connecting to MongoDB:", error);
+    console.error('MongoDB connection error:', error);
+    throw error;
   }
 };
