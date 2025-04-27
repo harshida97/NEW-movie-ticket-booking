@@ -72,10 +72,10 @@ connect()
 
 console.log('MongoDB URI from .env in app.js:', process.env.DB_URL);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
-});
+//const PORT = process.env.PORT || 5000;
+//app.listen(PORT, () => {
+ // console.log(`Server is listening on port ${PORT}`);
+//});
 
 export default app;
 
