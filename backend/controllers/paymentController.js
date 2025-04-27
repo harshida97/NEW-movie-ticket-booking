@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRETE);
+const stripe = new Stripe(process.env.STRIPE_SECRET);
 
 
 export const paymentFunction = async (req, res) => {
