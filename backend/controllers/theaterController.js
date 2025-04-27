@@ -56,7 +56,7 @@ export const approveTheater = async (req, res) => {
 };
 
 export const deleteTheater = async (req, res) => {
-  const theaterId = req.params.id;
+  const { theaterId } = req.params; 
 
   try {
     const deletedTheater = await Theater.findByIdAndDelete(theaterId);

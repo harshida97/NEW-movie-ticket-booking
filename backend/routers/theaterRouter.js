@@ -1,7 +1,7 @@
 // routes/theaterRoutes.js
 import express from 'express';
 import { registerTheater,listTheaters, getTheaters,approveTheater,deleteTheater } from '../controllers/theaterController.js';
-import { isAuthenticated, isOwner,isAdmin } from '../middlewares/middlewareAuth.js';
+import { isAuthenticated,isAdmin } from '../middlewares/middlewareAuth.js';
 
 
 
@@ -10,6 +10,6 @@ router.post('/registertheater', isAuthenticated, registerTheater);
 router.get('/list-theaters',listTheaters)
 router.get('/get-theaters', getTheaters);
 router.put('/approve/:theaterId', isAuthenticated, isAdmin, approveTheater);
-router.delete('/deletetheater/:theaterId',isAuthenticated,isOwner,deleteTheater)
+router.delete('/deletetheater/:theaterId',isAuthenticated,deleteTheater)
 
 export default router;
