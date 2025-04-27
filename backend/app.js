@@ -39,11 +39,20 @@ app.get('/', (req, res) => {
   res.json({ message: 'server started' });
 });
 
-// CORS configuration for front-end and back-end interaction
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://new-movie-ticket-booking-vvre.vercel.app');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  next();
+});
+
+
+
 const corsOptions = {
   origin: [
     'http://localhost:5173',
-    'https://new-movie-ticket-booking-vvre.vercel.app'
+    'https://new-movie-ticket-booking-24tc.vercel.app/'
   ], 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -53,13 +62,15 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Routes
-app.use('/users', userRouter);
-app.use('/theaters', theaterRouter);
-app.use('/movies', movieRouter);
-app.use('/shows', showRouter);
-app.use('/bookings', bookingRouter);
-app.use('/payment',paymentRouter);
-app.use('/reviews',reviewRouter)
+// routes
+app.use('/api/users', userRouter);
+app.use('/api/theaters', theaterRouter);
+app.use('/api/movies', movieRouter);
+app.use('/api/shows', showRouter);
+app.use('/api/bookings', bookingRouter);
+app.use('/api/payment', paymentRouter);
+app.use('/api/reviews', reviewRouter);
+
 
 // To handle file uploads
 app.use(express.urlencoded({ extended: true }));
