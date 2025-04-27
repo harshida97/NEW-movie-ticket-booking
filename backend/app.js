@@ -35,8 +35,8 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(cookieParser());
 
-app.get('/test', (req, res) => {
-  res.json({ message: 'CORS is working' });
+app.get('/', (req, res) => {
+  res.json({ message: 'server started' });
 });
 
 // CORS configuration for front-end and back-end interaction
