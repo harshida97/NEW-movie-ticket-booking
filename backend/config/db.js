@@ -16,6 +16,7 @@ export const connect = async () => {
     const db = await mongoose.connect(process.env.DB_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000,
     });
     isConnected = db.connections[0].readyState;
     console.log('=> New MongoDB connection created');

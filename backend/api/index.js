@@ -2,6 +2,14 @@ import app from '../app.js';
 import serverless from 'serverless-http';
 import { connect } from '../config/db.js';
 
-await connect(); // ensure database is connected first
+let isDbConnected = false;
 
-export const handler = serverless(app);
+const handler = async (req, res) => {
+  if (!isDbConnected) {
+    await connect();
+    isDbConnected = true;
+  }
+  return serverless(app)(req, res);
+};
+
+export { handler };
