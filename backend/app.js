@@ -53,13 +53,13 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Routes
-app.use('/api/users', userRouter);
-app.use('/api/theaters', theaterRouter);
-app.use('/api/movies', movieRouter);
-app.use('/api/shows', showRouter);
-app.use('/api/bookings', bookingRouter);
-app.use('/api/payment',paymentRouter);
-app.use('/api/reviews',reviewRouter)
+app.use('/users', userRouter);
+app.use('/theaters', theaterRouter);
+app.use('/movies', movieRouter);
+app.use('/shows', showRouter);
+app.use('/bookings', bookingRouter);
+app.use('/payment',paymentRouter);
+app.use('/reviews',reviewRouter)
 
 // To handle file uploads
 app.use(express.urlencoded({ extended: true }));
