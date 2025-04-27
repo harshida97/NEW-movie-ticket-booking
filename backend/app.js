@@ -17,34 +17,23 @@ import { dirname } from 'path';
 dotenv.config();
 
 const app = express();
+app.get("/", (req, res) => {
+  res.json("Server started")
+})
+
+//connect Db
+connect();
 
 // For ES Modules (__dirname)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // CORS configuration
-const corsOptions = {
-  origin: [
-    'http://localhost:5173',
-    'https://new-movie-ticket-booking-24tc-lchor622t.vercel.app',
-  ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-};
-app.use(cors(corsOptions));
+//middleware
+app.use(cors({
+  origin:[ 'http://localhost:5173',"https://new-movie-ticket-booking-6p8y.vercel.app"]
+}))
 
-// Content Security Policy (CSP) Middleware
-app.use((req, res, next) => {
-  res.setHeader("Content-Security-Policy", 
-    "default-src 'self'; " + 
-    "script-src 'self' https://vercel.live; " +
-    "img-src 'self' http://localhost:3000 https://movie-website-images.com; " +
-    "style-src 'self' https://fonts.googleapis.com; " +
-    "font-src 'self' https://fonts.gstatic.com;"
-  );
-  next();
-});
 
 // Body parsers
 app.use(express.json());
@@ -54,10 +43,7 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static uploads
 app.use('/upload', express.static(path.join(__dirname, 'upload')));
 
-// Test route
-app.get('/', (req, res) => {
-  res.json({ message: 'Server started successfully!' });
-});
+
 
 // API Routes
 app.use('/api/users', userRouter);
@@ -68,7 +54,7 @@ app.use('/api/bookings', bookingRouter);
 app.use('/api/payment', paymentRouter);
 app.use('/api/reviews', reviewRouter);
 
-// Database connection (inside serverless handler, not here!)
-// We will call connect() manually in serverless function file
+app.listen(process.env.PORT, () => {
+  console.log(`Server starts on port ${process.env.PORT}`);
+})
 
-export default app;
