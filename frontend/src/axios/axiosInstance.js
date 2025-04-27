@@ -13,7 +13,7 @@ userInstance.interceptors.request.use((request) => {
 })
 
 export const adminInstance = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_BASE_URL,
   withCredentials: true,
 });
 
@@ -24,7 +24,7 @@ adminInstance.interceptors.request.use((request) => {
 })
 
 export const ownerInstance = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_BASE_URL,
   withCredentials: true,
 });
 
