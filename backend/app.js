@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import serverless from "serverless-http";
+//import serverless from "serverless-http";
 import { connect } from './config/db.js';
 import userRouter from './routers/userRouter.js';
 import theaterRouter from './routers/theaterRouter.js';
@@ -58,8 +58,6 @@ app.use('/api/bookings', bookingRouter);
 app.use('/api/payment', paymentRouter);
 app.use('/api/reviews', reviewRouter);
 
-//app.listen(process.env.PORT, () => {
- // console.log(`Server starts on port ${process.env.PORT}`);
-//})
-
-export const handler = serverless(app);
+app.listen(process.env.PORT, () => {
+  console.log(`Server starts on port ${process.env.PORT}`);
+})
