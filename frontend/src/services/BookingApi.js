@@ -2,7 +2,7 @@ import { userInstance } from '../axios/axiosInstance';
 
 export const getShowDetails = async (id) => {
   try {
-    const response = await userInstance.get(`/shows/shows/${id}`);
+    const response = await userInstance.get(`api/shows/shows/${id}`);
     return response.data;
   } catch (error) {
     throw error;
