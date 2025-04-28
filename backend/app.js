@@ -2,14 +2,14 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import { connect } from '../config/db.js';
-import userRouter from '../routers/userRouter.js';
-import theaterRouter from '../routers/theaterRouter.js';
-import movieRouter from '../routers/movieRouter.js';
-import showRouter from '../routers/showRouter.js';
-import bookingRouter from '../routers/bookingRouter.js';
-import paymentRouter from '../routers/paymentRouter.js';
-import reviewRouter from '../routers/reviewRouter.js';
+import { connect } from './config/db.js';
+import userRouter from './routers/userRouter.js';
+import theaterRouter from './routers/theaterRouter.js';
+import movieRouter from './routers/movieRouter.js';
+import showRouter from './routers/showRouter.js';
+import bookingRouter from './routers/bookingRouter.js';
+import paymentRouter from './routers/paymentRouter.js';
+import reviewRouter from './routers/reviewRouter.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -27,7 +27,8 @@ connect();
 
 // CORS configuration
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: process.env.FRONTEND_URL || '*',
+  credentials: true
 }));
 
 // Body parsers
@@ -51,6 +52,16 @@ app.use('/api/reviews', reviewRouter);
 app.get("/", (req, res) => {
   res.json("Server started successfully");
 });
+
+
+
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
 
 
 export default app;
