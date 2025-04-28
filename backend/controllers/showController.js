@@ -115,19 +115,20 @@ export const getShowDetails = async (req, res) => {
 // Function to list all shows
 export const listShows = async (req, res) => {
   try {
-    // If no theaterId is provided, fetch all shows
     const shows = await Show.find()
       .populate({
         path: 'theater',
         select: 'theaterName location',
       });
 
+    const backendBaseUrl = "https://new-movie-ticket-booking.onrender.com";
+
     const showsWithFullImageUrls = shows.map(show => {
       const showObj = show.toObject();
 
-      // Ensure image URL is complete
-      if (showObj.image && !showObj.image.startsWith('http://localhost:5000/')) {
-        showObj.image = `http://localhost:5000/${showObj.image.replace(/\\/g, '/')}`;
+      // Corrected condition
+      if (showObj.image && !showObj.image.startsWith('http')) {
+        showObj.image = `${backendBaseUrl}/${showObj.image.replace(/\\/g, '/')}`;
       }
 
       return showObj;
@@ -138,6 +139,7 @@ export const listShows = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
 
 
 // Function to list shows by theater owner
