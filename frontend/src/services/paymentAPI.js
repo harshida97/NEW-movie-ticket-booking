@@ -10,7 +10,7 @@ export const makePayment = (data) => {
     },
   };
 
-  return userInstance.post("api/payment/stripe-checkout", data, config);
+  return userInstance.post("/api/payment/stripe-checkout", data, config);
 };
 
 // NEW FUNCTION for clarity
@@ -24,5 +24,5 @@ export const createStripeSession = (data) => {
     },
   };
 
-  return userInstance.post("api/payment/stripe-checkout", data, config);
+  return userInstance.post("/api/payment/stripe-checkout", data, config);
 };

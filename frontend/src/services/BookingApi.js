@@ -2,7 +2,7 @@ import { userInstance } from '../axios/axiosInstance';
 
 export const getShowDetails = async (id) => {
   try {
-    const response = await userInstance.get(`api/shows/shows/${id}`);
+    const response = await userInstance.get(`/api/shows/shows/${id}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -19,7 +19,7 @@ export const createBooking = async (showId, seats) => {
 
   try {
     const response = await userInstance.post(
-      `api/bookings/createbooking`,
+      `/api/bookings/createbooking`,
       {
         show: showId,
         seatsBooked: seats,
