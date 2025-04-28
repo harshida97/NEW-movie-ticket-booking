@@ -2,7 +2,6 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-//import serverless from "serverless-http";
 import { connect } from './config/db.js';
 import userRouter from './routers/userRouter.js';
 import theaterRouter from './routers/theaterRouter.js';
@@ -14,38 +13,24 @@ import reviewRouter from './routers/reviewRouter.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import serverless from 'serverless-http';  // ✅ Add this
 
 dotenv.config();
 
 const app = express();
-app.get("/", (req, res) => {
-  res.json("Server started")
-})
 
-//connect Db
-connect();
-
-// For ES Modules (__dirname)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// CORS configuration
-
 app.use(cors({
   origin: 'http://localhost:5173',
-  
 }));
 
-
-// Body parsers
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static uploads
 app.use('/upload', express.static(path.join(__dirname, 'upload')));
-
-
 
 // API Routes
 app.use('/api/users', userRouter);
@@ -56,6 +41,9 @@ app.use('/api/bookings', bookingRouter);
 app.use('/api/payment', paymentRouter);
 app.use('/api/reviews', reviewRouter);
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server starts on port ${process.env.PORT}`);
-})
+app.get("/", (req, res) => {
+  res.json("Server started");
+});
+
+
+export const handler = serverless(app);
