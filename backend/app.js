@@ -13,23 +13,29 @@ import reviewRouter from './routers/reviewRouter.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import serverless from 'serverless-http';  // ✅ Add this
 
 dotenv.config();
 
 const app = express();
 
+// For ES Modules (__dirname)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Connect to DB
+connect();
+
+// CORS configuration
 app.use(cors({
   origin: process.env.FRONTEND_URL,
 }));
 
+// Body parsers
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
+// Static files
 app.use('/upload', express.static(path.join(__dirname, 'upload')));
 
 // API Routes
@@ -41,9 +47,10 @@ app.use('/api/bookings', bookingRouter);
 app.use('/api/payment', paymentRouter);
 app.use('/api/reviews', reviewRouter);
 
+
 app.get("/", (req, res) => {
-  res.json("Server started");
+  res.json("Server started successfully");
 });
 
 
-export const handler = serverless(app);
+export default app;
