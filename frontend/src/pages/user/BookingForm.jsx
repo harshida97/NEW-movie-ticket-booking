@@ -104,7 +104,7 @@ const BookingForm = () => {
       <div className="mb-4">
         {imageUrl && (
           <img
-            src={`${import.meta.env.VITE_BACKEND_URL}/${imageUrl.replace(/\\/g, '/')}`}
+            src={`${import.meta.env.VITE_BASE_URL}/${imageUrl.replace(/\\/g, '/')}`}
             alt={show.movie}
             className="w-full h-64 object-cover mb-4"
           />
