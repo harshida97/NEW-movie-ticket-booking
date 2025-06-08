@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from '../services/userApi'; 
 
-const Register = () => {
+const Register = ({ role = "user" }) => {
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const navigate = useNavigate();
 
@@ -13,12 +13,19 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await registerUser(form); 
+       await registerUser({ ...form, role });
 
       localStorage.setItem('userName', form.name);
 
       alert('Registered successfully');
-      navigate('/');
+      // Redirect to appropriate login
+      if (role === 'owner') {
+        navigate('/owner/login');
+      } else if (role === 'admin') {
+        navigate('/admin/login');
+      } else {
+        navigate('/');
+      }
     } catch (error) {
       alert(error.response?.data?.message || 'Something went wrong');
     }
@@ -58,7 +65,7 @@ const Register = () => {
         <div className="text-center">
           <p className="text-gray-600">
             Already have an account?{' '}
-            <Link to="/" className="text-blue-500 hover:underline">
+            <Link to={role === 'owner' ? '/owner/login' : '/'} className="text-blue-500 hover:underline">
               Click here to login
             </Link>
           </p>

@@ -114,6 +114,10 @@ export const router = createBrowserRouter([
                 element: <Login role="owner" />,
             },
             {
+                path: "register", 
+                element: <Register role="owner" />,
+             },
+            {
                 path:"ownerhome",
                 element:<OwnerHome/>
 
