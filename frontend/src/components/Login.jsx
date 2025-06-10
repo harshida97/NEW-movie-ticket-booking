@@ -14,34 +14,34 @@ function Login({ role = "user" }) {
   const handleSubmit = (e) => {
 
     e.preventDefault()
-    userLogin(values,role).then((res) => {
+    userLogin(values, role).then((res) => {
 
-      if(role == "admin"){
+      if (role == "admin") {
         localStorage.setItem("admin-token", res?.data?.token)
         localStorage.removeItem('owner-token');
         toast.success(res?.data?.message)
         navigate("/admin/adminhome")
       }
 
-      else if(role == "owner"){
+      else if (role == "owner") {
         localStorage.setItem("owner-token", res?.data?.token)
         localStorage.removeItem('admin-token');
         toast.success(res?.data?.message)
         navigate("/owner/ownerhome")
-      } 
+      }
 
-      else{
+      else {
         localStorage.setItem("token", res?.data?.token)
         toast.success(res?.data?.message)
         navigate("/userhome")
       }
 
     }).catch((err) => {
-        toast.error(err?.response?.data?.error);
+      toast.error(err?.response?.data?.error);
 
     })
 
-}
+  }
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -93,8 +93,21 @@ function Login({ role = "user" }) {
             </div>
             <p className="text-gray-600">
               Don't have an account?{' '}
-              <a onClick={() => navigate('/register')} className="link link-primary">Click here to register</a>
+              <a
+                onClick={() => {
+                  if (role === 'admin')
+                     navigate('/admin/register');
+                  else if (role === 'owner')
+                     navigate('/owner/register');
+                  else 
+                  navigate('/register');
+                }}
+                className="link link-primary cursor-pointer"
+              >
+                Click here to register
+              </a>
             </p>
+
           </form>
         </div>
       </div>

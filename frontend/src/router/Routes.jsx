@@ -86,6 +86,10 @@ export const router = createBrowserRouter([
                 element: <Login role="admin" />,
             },
             {
+                path: "register", 
+                element: <Register role="owner" />,
+             },
+            {
                 path:"adminhome",
                 element: <AdminHome/>
             },
